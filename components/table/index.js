@@ -75,14 +75,13 @@ const TableComponent = ({ posts }) => {
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                     {columns.map(column => {
                       const value = row[column.id]
-                      console.log({ row });
                       return (
                         <TableCell key={column.id} align={column.align}>
                           {column.id !== 'actions' && value}
                           {column.id === 'actions' && (
                             <div className={classes.actionsHolder}>
                               <Link href={`/post/${row.id}`}><VisibilityIcon /></Link>
-                              <EditIcon />
+                              <Link href={`/edit-post/${row.id}`}><EditIcon /></Link>
                               <DeleteIcon />
                             </div>
                           )}

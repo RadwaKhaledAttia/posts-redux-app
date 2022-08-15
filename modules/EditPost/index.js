@@ -6,8 +6,9 @@ import { Container, Grid } from '@mui/material'
 import { API_ENDPOINT } from '../../utils/endpoint'
 import { pathOr } from 'ramda'
 import useStyles from './style'
+import EditForm from './form'
 
-const SinglePost = () => {
+const EditPost = () => {
   const classes = useStyles()
   const [post, setPost] = useState({})
   const { query } = useRouter()
@@ -18,35 +19,24 @@ const SinglePost = () => {
   useEffect(() => {
     getPost(query.id)
   }, [query])
+
+
   return (
     <div className={classes.postHolder}>
       <Head>
-        <title>Post App</title>
+        <title>Edit Post</title>
         <meta name="description" content={pathOr('', ['title'], post)} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {post.id && (
         <Container>
-          <Grid container spacing={4}>
+          <Grid container>
             <Grid item lg={12} md={12} sm={12} xs={12}>
-              <h1>Post details</h1>
+              <h1>Edit Post</h1>
             </Grid>
           </Grid>
           <Grid container spacing={4}>
-            <Grid item lg={2} md={2} sm={3} xs={12}>
-              <h3>Title:</h3>
-            </Grid>
-            <Grid item lg={10} md={10} sm={9} xs={12}>
-              <h5>{pathOr('', ['title'], post)}</h5>
-            </Grid>
-          </Grid>
-          <Grid container spacing={4}>
-            <Grid item lg={2} md={2} sm={3} xs={12}>
-              <h3>Description:</h3>
-            </Grid>
-            <Grid item lg={10} md={10} sm={9} xs={12}>
-              <h5>{pathOr('', ['body'], post)}</h5>
-            </Grid>
+           <EditForm post={post} />
           </Grid>
         </Container>
       )}
@@ -55,4 +45,4 @@ const SinglePost = () => {
   )
 }
 
-export default SinglePost
+export default EditPost

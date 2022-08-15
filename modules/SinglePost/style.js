@@ -8,6 +8,12 @@ const useStyles = makeStyles(() => ({
       color: '#372166',
       marginBottom: 50,
     },
+    '& h4': {
+      color: '#372166',
+      margin: '50px 0',
+      textAlign: 'center',
+      fontSize: 22,
+    },
     '& h3': {
       color: '#344054',
       marginTop: 0,
