@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Link from 'next/link'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -27,15 +28,15 @@ const columns = [
   },
 ]
 
-function createData(title, body) {
-  return { title, body }
+function createData(title, body, id) {
+  return { title, body, id }
 }
 
 const TableComponent = ({ posts }) => {
   const classes = useStyles()
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
-  const rows = posts.map(post => createData(post.title, post.body.substring(0, 80) + '...'))
+  const rows = posts.map(post => createData(post.title, post.body.substring(0, 80) + '...', post.id))
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -74,12 +75,13 @@ const TableComponent = ({ posts }) => {
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                     {columns.map(column => {
                       const value = row[column.id]
+                      console.log({ row });
                       return (
                         <TableCell key={column.id} align={column.align}>
                           {column.id !== 'actions' && value}
                           {column.id === 'actions' && (
                             <div className={classes.actionsHolder}>
-                              <VisibilityIcon />
+                              <Link href={`/post/${row.id}`}><VisibilityIcon /></Link>
                               <EditIcon />
                               <DeleteIcon />
                             </div>

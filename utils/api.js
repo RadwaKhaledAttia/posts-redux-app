@@ -1,7 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import Axios from 'axios'
-
-const API_ENDPOINT = 'https://jsonplaceholder.typicode.com/posts'
+import { API_ENDPOINT } from './endpoint'
 
 export default {
   getAll: async function () {
