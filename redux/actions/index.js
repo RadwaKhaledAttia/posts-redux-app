@@ -1,4 +1,4 @@
-import { GET_POSTS, UPDATE_POST } from './actionTypes'
+import { GET_POSTS, UPDATE_POST, DELETE_POST } from './actionTypes'
 
 export const getPosts = () => {
   return {
@@ -8,6 +8,13 @@ export const getPosts = () => {
 export const updatePost = data => {
   return {
     type: UPDATE_POST,
+    payload: data,
+  }
+}
+
+export const deletePost = data => {
+  return {
+    type: DELETE_POST,
     payload: data,
   }
 }

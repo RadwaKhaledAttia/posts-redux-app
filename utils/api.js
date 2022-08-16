@@ -17,4 +17,11 @@ export default {
     })
     return response.data
   },
+  DeletePost: async function ({ id }) {
+    const response = await Axios({
+      method: 'delete',
+      url: `${API_ENDPOINT}/${id}`,
+    })
+    return id
+  },
 }

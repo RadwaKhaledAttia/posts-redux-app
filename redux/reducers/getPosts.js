@@ -21,6 +21,14 @@ export default function (state = initialState, action) {
         posts: posts,
       }
     }
+    case actionType.DELETED_POST: {
+      const posts = [...state.posts]
+      const targetPosts = posts.filter(post => post.id !== Number(action.payload))
+      return {
+        ...state,
+        posts: targetPosts,
+      }
+    }
     default: {
       return { ...state }
     }

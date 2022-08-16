@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/BorderColorOutlined'
 import DeleteIcon from '@mui/icons-material/Delete'
 import useStyles from './style'
 import EditPost from '../../modules/EditPost'
+import DeletePost from '../../modules/DeletePost'
 
 const columns = [
   { id: 'title', label: 'Title', minWidth: 100 },
@@ -39,6 +40,7 @@ const TableComponent = ({ posts }) => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [openEdit, setOpenEdit] = useState(false)
+  const [openDelete, setOpenDelete] = useState(false)
 
   const rows = posts.map(post =>
     createData(post.title, post.body.substring(0, 80) + '...', post.id),
@@ -95,7 +97,10 @@ const TableComponent = ({ posts }) => {
                                   Router.push({ query: { id: row.id } })
                                 }}
                               />
-                              <DeleteIcon />
+                              <DeleteIcon onClick={() => {
+                                  setOpenDelete(true)
+                                  Router.push({ query: { id: row.id } })
+                                }} />
                             </div>
                           )}
                         </TableCell>
@@ -117,6 +122,7 @@ const TableComponent = ({ posts }) => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
       {openEdit && <EditPost open={openEdit} setOpen={setOpenEdit} />}
+      {openDelete && <DeletePost open={openDelete} setOpen={setOpenDelete} />}
     </Paper>
   )
 }
