@@ -1,8 +1,9 @@
 import { GET_POSTS, UPDATE_POST, DELETE_POST } from './actionTypes'
 
-export const getPosts = () => {
+export const getPosts = data => {
   return {
     type: GET_POSTS,
+    payload: data,
   }
 }
 export const updatePost = data => {

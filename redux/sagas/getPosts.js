@@ -6,9 +6,9 @@ export default function* getPostsSaga() {
   yield takeEvery(actionType.GET_POSTS, fetchPosts)
 }
 
-function* fetchPosts() {
+function* fetchPosts(action) {
   try {
-    const postsResponse = yield call(Api.getAll)
+    const postsResponse = yield call(Api.getAll, action.payload)
     yield put({ type: actionType.GOT_POSTS, payload: postsResponse })
   } catch (err) {
     console.log(err)

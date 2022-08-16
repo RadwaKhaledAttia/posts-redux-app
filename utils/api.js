@@ -3,9 +3,14 @@ import Axios from 'axios'
 import { API_ENDPOINT } from './endpoint'
 
 export default {
-  getAll: async function () {
-    const response = await Axios.get(API_ENDPOINT)
-    return response.data
+  getAll: async function (data) {
+    if (data) {
+      const response = await Axios.get(`${API_ENDPOINT}?title=${data}`)
+      return response.data
+    } else {
+      const response = await Axios.get(API_ENDPOINT)
+      return response.data
+    }
   },
   EditPost: async function ({ data, id }) {
     const response = await Axios({

@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/styles'
 const useStyles = makeStyles(() => ({
   tableHolder: {
     width: '100%',
-    marginTop: 80,
     '& th': {
         background: '#eef2f7',
     },
