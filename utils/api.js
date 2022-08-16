@@ -7,4 +7,14 @@ export default {
     const response = await Axios.get(API_ENDPOINT)
     return response.data
   },
+  EditPost: async function ({ data, id }) {
+    const response = await Axios({
+      method: 'put',
+      url: `${API_ENDPOINT}/${id}`,
+      data: {
+        ...data,
+      },
+    })
+    return response.data
+  },
 }

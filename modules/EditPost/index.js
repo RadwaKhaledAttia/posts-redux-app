@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Axios from 'axios'
-import { useRouter } from 'next/router'
-import { Container, Grid } from '@mui/material'
+import Router, { useRouter } from 'next/router'
+import { Dialog, DialogTitle, DialogContent } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 import { API_ENDPOINT } from '../../utils/endpoint'
 import { pathOr } from 'ramda'
 import useStyles from './style'
 import EditForm from './form'
 
-const EditPost = () => {
+const EditPost = ({ open, setOpen }) => {
   const classes = useStyles()
   const [post, setPost] = useState({})
   const { query } = useRouter()
@@ -17,9 +18,13 @@ const EditPost = () => {
     Axios.get(`${API_ENDPOINT}/${id}`).then(response => setPost(response.data))
   }
   useEffect(() => {
-    getPost(query.id)
-  }, [query])
+    if (query.id) getPost(query.id)
+  }, [query.id])
 
+  const closeModal = () => {
+    Router.push('/')
+    setOpen(false)
+  }
 
   return (
     <div className={classes.postHolder}>
@@ -28,19 +33,23 @@ const EditPost = () => {
         <meta name="description" content={pathOr('', ['title'], post)} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {post.id && (
-        <Container>
-          <Grid container>
-            <Grid item lg={12} md={12} sm={12} xs={12}>
-              <h1>Edit Post</h1>
-            </Grid>
-          </Grid>
-          <Grid container spacing={4}>
-           <EditForm post={post} />
-          </Grid>
-        </Container>
-      )}
-      {!post.id && <h4>Loading ...</h4>}
+
+      <Dialog
+        className={classes.FlexModal}
+        open={open}
+        onClose={closeModal}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="simple-dialog-title">
+          <CloseIcon onClick={closeModal} />
+          <h1>Edit Post</h1>
+        </DialogTitle>
+        <DialogContent>
+          {post.id && <EditForm post={post} closeModal={closeModal} />}
+          {!post.id && <h4>Loading ...</h4>}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

@@ -1,12 +1,10 @@
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import rootReducer from './reducers/index'
 
 import {
   getPostsSaga,
-  addPostSaga,
-  deletePostSaga,
-  updatePostSaga,
+  editPostSaga,
 } from './sagas'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -15,3 +13,4 @@ const sagaMiddleware = createSagaMiddleware()
 export const store = createStore(rootReducer, applyMiddleware(sagaMiddleware))
 
 sagaMiddleware.run(getPostsSaga)
+sagaMiddleware.run(editPostSaga)

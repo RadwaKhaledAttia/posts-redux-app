@@ -1,5 +1,6 @@
-import * as React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
+import Router from 'next/router'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -12,6 +13,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import EditIcon from '@mui/icons-material/BorderColorOutlined'
 import DeleteIcon from '@mui/icons-material/Delete'
 import useStyles from './style'
+import EditPost from '../../modules/EditPost'
 
 const columns = [
   { id: 'title', label: 'Title', minWidth: 100 },
@@ -34,9 +36,13 @@ function createData(title, body, id) {
 
 const TableComponent = ({ posts }) => {
   const classes = useStyles()
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
-  const rows = posts.map(post => createData(post.title, post.body.substring(0, 80) + '...', post.id))
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [openEdit, setOpenEdit] = useState(false)
+
+  const rows = posts.map(post =>
+    createData(post.title, post.body.substring(0, 80) + '...', post.id),
+  )
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -80,8 +86,15 @@ const TableComponent = ({ posts }) => {
                           {column.id !== 'actions' && value}
                           {column.id === 'actions' && (
                             <div className={classes.actionsHolder}>
-                              <Link href={`/post/${row.id}`}><VisibilityIcon /></Link>
-                              <Link href={`/edit-post/${row.id}`}><EditIcon /></Link>
+                              <Link href={`/post/${row.id}`}>
+                                <VisibilityIcon />
+                              </Link>
+                              <EditIcon
+                                onClick={() => {
+                                  setOpenEdit(true)
+                                  Router.push({ query: { id: row.id } })
+                                }}
+                              />
                               <DeleteIcon />
                             </div>
                           )}
@@ -103,6 +116,7 @@ const TableComponent = ({ posts }) => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      {openEdit && <EditPost open={openEdit} setOpen={setOpenEdit} />}
     </Paper>
   )
 }
